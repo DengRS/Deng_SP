@@ -10,9 +10,10 @@ headers = {
     'Referer': 'https://movie.douban.com/tag/'}
 
 def get_page(Url):
+    """请求网页内容"""
     try:
+        response = requests.get(Url, headers=headers, verify=False) #关闭证书验证
         urllib3.disable_warnings()  # 忽略证书验证的警告
-        response = requests.get(Url, headers=headers, verify=False)
         if response.status_code == 200:
             response.encoding = response.apparent_encoding
             return response.text
@@ -21,8 +22,9 @@ def get_page(Url):
         return None
 
 def douban_spider():
+    """存储在csv文件中"""
     lyst = []
-    for i in range(0, 100, 20):
+    for i in range(0, 100, 20): #网页的页数
         from_data = {
             'sort': 'T',
             'range': '0,10',
